@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>Välkommen till vår lilla sporthörna</h2>
+            <table class="table table-striped">
+                <tr><th>Lag</th><th>Poäng</th></tr>
+                <tr ng-repeat="lag in table">
+                    <td>{{lag.lagnamn}}</td>
+                    <td>{{lag.p}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
