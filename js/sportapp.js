@@ -56,7 +56,7 @@ module.controller("changegameCtrl",function ($scope, $rootScope, sportService){
     $scope.resolveTeam = function (id){
         for(var i = 0; i < $scope.teams.length; i++){
             if(id === $scope.teams[i].id){
-                return $scope.teams[i].lagnamn;
+                return $scope.teams[i].lag;
             }
         }
     };
@@ -142,4 +142,20 @@ module.service("sportService", function ($q, $http, $rootScope) {
         });
         return deffer.promise;
     };
+    this.removeGame = function (id){
+        
+        var deffer = $q.defer();
+        var url = "http://localhost:8080/SportApp/webresources/game/"+id;
+        var auth = "Basic " + window.btoa($rootScope.user + ":" + $rootScope.pass);
+        $http({
+            url: url,
+            method: "DELETE",
+            headers: {'Authorization': auth}
+        }).success(function (data, status) {
+            console.log("Match borttagen");
+        }).error(function (data, status) {
+            console.log("det blev fel");
+        });
+    };
+    
 });

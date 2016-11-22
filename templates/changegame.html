@@ -8,8 +8,12 @@
                     <tr><th>Change</th><th>Hemmalag</th><th>Bortalag</th>
                         <th>Poäng hemma</th><th>Poäng borta</th><th>Remove</th></tr>
                     <tr ng-repeat="game in games">
-                        <td><button class="btn btn-success">Change</button></td><td>{{game.hemmalag}}</td><td>{{game.bortalag}}</td>
-                        <td>{{game.poanghemma}}p</td><td>{{game.poangborta}}p</td><td>x</td>
+                        <td><button class="btn btn-success">Change</button></td>
+                        <td>{{resolveTeam(game.hemmalag)}}</td>
+                        <td>{{resolveTeam(game.bortalag)}}</td>
+                        <td>{{game.poanghemma}}p</td>
+                        <td>{{game.poangborta}}p</td>
+                        <td><a ng-click="removeGame(game.id)">x</a></td>
                     </tr>
                 </table>
             </div>
