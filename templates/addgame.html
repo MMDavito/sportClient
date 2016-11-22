@@ -1,17 +1,18 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h2>Lägg till nåt</h2>
-            <div ng-show="!isLoggedIn">
-                Logga in
+            
+            <div ng-show="!isLoggedIn" class="logInForm">
+                <h2 style="text-align: center">Logga in</h2>
                 <form ng-submit="loggIn()">
-                    <label>Username<input type="text" ng-model="username"/></label><br/>
-                    <label>Password<input type="password" ng-model="password"/></label><br/>                    
-                    <input type="submit" value="Logga in"/>
+                    <label class="logIn">Username<br/><input type="text" ng-model="username" class="input-lg logIn"/></label><br/>
+                    <label class="logIn">Password<br/><input type="password" ng-model="password" class="input-lg logIn"/></label><br/>                    
+                    <div class=""><input type="submit" value="Logga in" class="btn btn-info btn-block"/></div>
 
-                </form>
+                </form></div>
             </div>
             <div ng-show="isLoggedIn">
+                <h2>Lägg till nåt</h2>
                 <form ng-submit="addGame()">
                     <label>Hemmalag<select ng-model="hl" style="width: 150px">
                             <option ng-repeat="team in teams" value="{{team.id}}">{{team.lag}}</option>
@@ -31,4 +32,3 @@
             </div>
         </div>
     </div>
-</div>
