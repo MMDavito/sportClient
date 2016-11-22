@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
             <h2>Lägg till nåt</h2>
             <div ng-show="!isLoggedIn">
                 Logga in
@@ -12,22 +12,22 @@
                 </form>
             </div>
             <div ng-show="isLoggedIn">
-                <label>Hemmalag<form ng-submit="addGame()">
-                        <select ng-model="hl">
-                            <option ng-repeat="team in teams" value="{{team.id}}">{{team.lagnamn}}</option>
+                <form ng-submit="addGame()">
+                    <label>Hemmalag<select ng-model="hl" style="width: 150px">
+                            <option ng-repeat="team in teams" value="{{team.id}}">{{team.lag}}</option>
                         </select>
-                    </form>
-                </label><br/>
-                <label>Bortalag<form ng-submit="addGame()">
-                        <select ng-model="bl">
-                            <option ng-repeat="team in teams" value="{{team.id}}">{{team.lagnamn}}</option>
-                        </select>
-                    </form>
-                </label><br/>
-                <label>Hemmapoäng<input type="number" max="3" min="0">/></label>
-                <label>Bortapoäng<input type="number" max="3" min="0">/></label>
-                <input type="submit"/>
+                    </label><br/>
 
+
+                    <label>Bortalag<select ng-model="bl" style="width: 150px">
+                            <option ng-repeat="team in teams" value="{{team.id}}">{{team.lag}}</option>
+                        </select></label><br/>
+
+
+                        <br/><label>Hemmapoäng<input type="number" max="3" min="0" ng-model="ph"/></label>
+                        <br/><label>Bortapoäng<input type="number" max="3" min="0" ng-model="pb"/></label>
+                        <br/><input type="submit" value="Lägg till match"/>
+                </form>
             </div>
         </div>
     </div>

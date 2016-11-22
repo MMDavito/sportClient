@@ -10,6 +10,10 @@ module.config(function ($urlRouterProvider, $stateProvider) {
         url: "/addgame",
         templateUrl: "templates/addgame.html",
         controller: "addgameCtrl"
+    }).state("changegame",{
+        url: "/changegame",
+        templateUrl: "templates/changegame.html",
+        controller: "changegameCtrl"        
     });
 });
 
@@ -30,6 +34,7 @@ module.controller("addgameCtrl", function ($scope, $rootScope, sportService) {
         sportService.loggIn($scope.username, $scope.password);
     };
     $scope.addGame = function () {
+        console.log("Fubar");
         sportService.addGame(Number($scope.hl), Number($scope.bl), $scope.ph, $scope.pb);
     };
     sportService.getTeams().then(function (data) {
@@ -38,16 +43,29 @@ module.controller("addgameCtrl", function ($scope, $rootScope, sportService) {
         console.log(data);
     });
 });
-/*module.controller("addgameCtrl", function ($scope, $rootScope, sportService) {
- 
- sportService.getTeams().then(function (data){        
- console.log("teams");
- $scope.teams = data;
- console.log(data);
- });
- });*/
-
-
+module.controller("changegameCtrl",function ($scope, $rootScope, sportService){
+     var promise = sportService.getGames();
+     promise.then(function (data){
+         $scope.games = data;
+     });
+      sportService.getTeams().then(function (data) {
+        console.log(data);
+        $scope.teams = data;
+    });
+    
+    $scope.resolveTeam = function (id){
+        for(var i = 0; i < $scope.teams.length; i++){
+            if(id === $scope.teams[i].id){
+                return $scope.teams[i].lagnamn;
+            }
+        }
+    };
+    
+    $scope.removeGame = function (id){
+        sportService.removeGame(id);
+    };
+    
+});
 
 module.service("sportService", function ($q, $http, $rootScope) {
     this.getTable = function () {
@@ -72,27 +90,25 @@ module.service("sportService", function ($q, $http, $rootScope) {
         return deffer.promise;
     };
     this.addGame = function (hl, bl, ph, pb) {
-
         var data = {
-            "hemmalag": hl,
-            "bortalag": bl,
-            "poanghemma": ph,
-            "poangborta": pb
+            hemmalag: hl,
+            bortalag: bl,
+            poanghemma: ph,
+            poangborta: pb
         };
         console.log(data);
         var url = "http://localhost:8080/SportApp/webresources/game";
         var auth = "Basic " + window.btoa($rootScope.user + ":" + $rootScope.pass);
-        $http({
+        console.log(auth);
+        $http({            
             url: url,
             method: "POST",
             data: data,
             headers: {'Authorization': auth}}).success(function (data, status) {
             console.log("Fixade inlagd match");
-        }).error("Failade med lägga in match");
+        });
     };
-
     this.loggIn = function (username, password) {
-        console.log("kärleken, magi, liksom fixade allt");
 
         var url = "http://localhost:8080/SportApp/webresources/login";
         var auth = "Basic " + window.btoa(username + ":" + password);
@@ -112,5 +128,18 @@ module.service("sportService", function ($q, $http, $rootScope) {
                 .error(function (data, status) {
                     console.log("logedout");
                 });
+    };
+    this.getGames = function(){
+        var deffer = $q.defer();
+        var url = "http://localhost:8080/SportApp/webresources/games";
+        var auth = "Basic " + window.btoa($rootScope.user + ":" + $rootScope.pass);
+        $http({
+            url: url,
+            method: "GET",
+            headers: {'Authorization': auth}
+        }).success(function (data, status) {
+            deffer.resolve(data);
+        });
+        return deffer.promise;
     };
 });

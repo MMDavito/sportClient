@@ -1,0 +1,18 @@
+<h2>Change || delete game</h2>
+<div ng-show="isLoggedIn">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h2>Change || delete game</h2>
+                <table class="table table-striped">
+                    <tr><th>Change</th><th>Hemmalag</th><th>Bortalag</th>
+                        <th>Poäng hemma</th><th>Poäng borta</th><th>Remove</th></tr>
+                    <tr ng-repeat="game in games">
+                        <td><button class="btn btn-success">Change</button></td><td>{{game.hemmalag}}</td><td>{{game.bortalag}}</td>
+                        <td>{{game.poanghemma}}p</td><td>{{game.poangborta}}p</td><td>x</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
