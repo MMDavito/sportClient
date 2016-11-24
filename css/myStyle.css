@@ -5,7 +5,8 @@ body {
   margin: 0;
 }
 body {
-  background-image: url(gif/firedragon.gif.gif);
+  background-color: #9BC4E2;
+  /*background-image: url(gif/firedragon.gif.gif)*/
 }
 .jumbotron {
   background-color: cyan;
@@ -52,5 +53,9 @@ label.points {
   text-align: right;
   float: right;
   margin: 0 0 0 0;
+}
+tr:nth-child(odd) {
+  color: blue;
+  font-weight: bolder;
 }
 /*# sourceMappingURL=myStyle.css.map */

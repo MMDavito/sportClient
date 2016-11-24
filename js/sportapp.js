@@ -64,7 +64,22 @@ module.controller("changegameCtrl",function ($scope, $rootScope, sportService){
     $scope.removeGame = function (id){
         sportService.removeGame(id);
     };
-    
+    $scope.fillForm = function (id){
+        console.log(id);
+        for (var i = 0; i<$scope.games.length; i++){
+            if($scope.games[i].id === id){
+                $scope.id = $scope.games[i].id;
+                $scope.formHL = $scope.games[i].hemmalag;
+                $scope.formBL = $scope.games[i].bortalag;
+                $scope.formPH = $scope.games[i].poanghemma;
+                $scope.formPB = $scope.games[i].poangborta;
+                
+            }
+        }
+    };
+    $scope.changeGame = function(){
+        console.log($scope.formHL);
+    };
 });
 
 module.service("sportService", function ($q, $http, $rootScope) {
