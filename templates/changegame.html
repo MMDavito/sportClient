@@ -26,10 +26,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Modal title</h4>
+                <h4 class="modal-title">Välj vad som ska ändras</h4>
             </div>
             <div class="modal-body">
-                <h2>Lägg till nåt</h2>
+
                 <form ng-submit="changeGame()">
                     <span><span class="distance"><label><span class="lag">Hemmalag</span><select ng-model="formHL" style="width: 150px;">
                                     <option ng-repeat="team in teams" value="{{team.id}}">{{team.lag}}</option>
@@ -40,15 +40,12 @@
                                     <option ng-repeat="team in teams" value="{{team.id}}">{{team.lag}}</option></select>
                             </label></span><label class="points">Bortapoäng<input type="number" ng-model="formPB" max="3" min="0" /></label>
                     </span>
-                    <br/>
-                    <br/>
+                    <div class="modal-footer">
                     <input type="submit" value="Ändra match" class="btn btn-block btn-info"/>
-                    <br/>                        
+            </div></form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                  
+            
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

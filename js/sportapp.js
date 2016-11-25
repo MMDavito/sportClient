@@ -39,7 +39,7 @@ module.controller("addgameCtrl", function ($scope, $rootScope, sportService) {
     };
     sportService.getTeams().then(function (data) {
         console.log("teams");
-        $scope.teams = data;
+        $rootScope.teams = data;
         console.log(data);
     });
 });
@@ -48,15 +48,11 @@ module.controller("changegameCtrl",function ($scope, $rootScope, sportService){
      promise.then(function (data){
          $scope.games = data;
      });
-      sportService.getTeams().then(function (data) {
-        console.log(data);
-        $scope.teams = data;
-    });
     
     $scope.resolveTeam = function (id){
-        for(var i = 0; i < $scope.teams.length; i++){
-            if(id === $scope.teams[i].id){
-                return $scope.teams[i].lag;
+        for(var i = 0; i < $rootScope.teams.length; i++){
+            if(id === $rootScope.teams[i].id){
+                return $rootScope.teams[i].lag;
             }
         }
     };
