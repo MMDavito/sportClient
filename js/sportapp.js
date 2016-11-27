@@ -10,10 +10,10 @@ module.config(function ($urlRouterProvider, $stateProvider) {
         url: "/addgame",
         templateUrl: "templates/addgame.html",
         controller: "addgameCtrl"
-    }).state("changegame",{
+    }).state("changegame", {
         url: "/changegame",
         templateUrl: "templates/changegame.html",
-        controller: "changegameCtrl"        
+        controller: "changegameCtrl"
     });
 });
 
@@ -26,7 +26,6 @@ module.controller("homeCtrl", function ($scope, $rootScope, sportService) {
 module.controller("addgameCtrl", function ($scope, $rootScope, sportService) {
 
     sportService.getTable().then(function (data) {
-        console.log("trevligt");
         $scope.table = data;
     });
     $scope.loggIn = function () {
@@ -43,38 +42,39 @@ module.controller("addgameCtrl", function ($scope, $rootScope, sportService) {
         console.log(data);
     });
 });
-module.controller("changegameCtrl",function ($scope, $rootScope, sportService){
-     var promise = sportService.getGames();
-     promise.then(function (data){
-         $scope.games = data;
-     });
-    
-    $scope.resolveTeam = function (id){
-        for(var i = 0; i < $rootScope.teams.length; i++){
-            if(id === $rootScope.teams[i].id){
+module.controller("changegameCtrl", function ($scope, $rootScope, sportService) {
+    var promise = sportService.getGames();
+    promise.then(function (data) {
+        $scope.games = data;
+    });
+
+    $scope.resolveTeam = function (id) {
+        for (var i = 0; i < $rootScope.teams.length; i++) {
+            if (id === $rootScope.teams[i].id) {
                 return $rootScope.teams[i].lag;
             }
         }
     };
-    
-    $scope.removeGame = function (id){
+
+    $scope.removeGame = function (id) {
         sportService.removeGame(id);
     };
-    $scope.fillForm = function (id){
+    $scope.fillForm = function (id) {
         console.log(id);
-        for (var i = 0; i<$scope.games.length; i++){
-            if($scope.games[i].id === id){
-                $scope.id = $scope.games[i].id;
+        for (var i = 0; i < $scope.games.length; i++) {
+            if ($scope.games[i].id === id) {
+                $scope.formId = $scope.games[i].id;
                 $scope.formHL = $scope.games[i].hemmalag;
                 $scope.formBL = $scope.games[i].bortalag;
                 $scope.formPH = $scope.games[i].poanghemma;
                 $scope.formPB = $scope.games[i].poangborta;
-                
+
             }
         }
     };
-    $scope.changeGame = function(){
-        console.log($scope.formHL);
+    $scope.changeGame = function () {
+        sportService.changeGame($scope.formId, $scope.formHL, $scope.formBL, $scope.formPH, $scope.formPB);
+
     };
 });
 
@@ -111,7 +111,7 @@ module.service("sportService", function ($q, $http, $rootScope) {
         var url = "http://localhost:8080/SportApp/webresources/game";
         var auth = "Basic " + window.btoa($rootScope.user + ":" + $rootScope.pass);
         console.log(auth);
-        $http({            
+        $http({
             url: url,
             method: "POST",
             data: data,
@@ -140,7 +140,7 @@ module.service("sportService", function ($q, $http, $rootScope) {
                     console.log("logedout");
                 });
     };
-    this.getGames = function(){
+    this.getGames = function () {
         var deffer = $q.defer();
         var url = "http://localhost:8080/SportApp/webresources/games";
         var auth = "Basic " + window.btoa($rootScope.user + ":" + $rootScope.pass);
@@ -153,10 +153,10 @@ module.service("sportService", function ($q, $http, $rootScope) {
         });
         return deffer.promise;
     };
-    this.removeGame = function (id){
-        
+    this.removeGame = function (id) {
+
         var deffer = $q.defer();
-        var url = "http://localhost:8080/SportApp/webresources/game/"+id;
+        var url = "http://localhost:8080/SportApp/webresources/game/" + id;
         var auth = "Basic " + window.btoa($rootScope.user + ":" + $rootScope.pass);
         $http({
             url: url,
@@ -168,5 +168,25 @@ module.service("sportService", function ($q, $http, $rootScope) {
             console.log("det blev fel");
         });
     };
-    
+    this.changeGame = function (id, hl, bl, ph, pb) {
+        var data = {
+            id: id,
+            hemmalag: hl,
+            bortalag: bl,
+            poanghemma: ph,
+            poangborta: pb
+        };
+        console.log(data);
+        var url = "http://localhost:8080/SportApp/webresources/game";
+        var auth = "Basic " + window.btoa($rootScope.user + ":" + $rootScope.pass);
+        console.log(auth);
+        $http({
+            url: url,
+            method: "PUT",
+            data: data,
+            headers: {'Authorization': auth}}).success(function (data, status) {
+            console.log("Fixade att ändra match");
+        });
+    };
+
 });
