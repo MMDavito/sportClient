@@ -34,7 +34,11 @@ module.controller("addgameCtrl", function ($scope, $rootScope, sportService) {
     };
     $scope.addGame = function () {
         console.log("Fubar");
-        sportService.addGame(Number($scope.hl), Number($scope.bl), $scope.ph, $scope.pb);
+        if ((($scope.hl) !== Number($scope.bl)) && ($scope.ph + $scope.pb === 3)) {
+            sportService.addGame(Number($scope.hl), Number($scope.bl), $scope.ph, $scope.pb);
+        } else
+            console.log("DRUMEL, Du kan inte göra så.");
+
     };
     sportService.getTeams().then(function (data) {
         console.log("teams");
@@ -64,8 +68,8 @@ module.controller("changegameCtrl", function ($scope, $rootScope, sportService) 
         for (var i = 0; i < $scope.games.length; i++) {
             if ($scope.games[i].id === id) {
                 $scope.formId = $scope.games[i].id;
-                $scope.formHL = $scope.games[i].hemmalag;
-                $scope.formBL = $scope.games[i].bortalag;
+                $scope.formHL = Number($scope.games[i].hemmalag);
+                $scope.formBL = Number($scope.games[i].bortalag);
                 $scope.formPH = $scope.games[i].poanghemma;
                 $scope.formPB = $scope.games[i].poangborta;
 
@@ -73,8 +77,10 @@ module.controller("changegameCtrl", function ($scope, $rootScope, sportService) 
         }
     };
     $scope.changeGame = function () {
-        sportService.changeGame($scope.formId, $scope.formHL, $scope.formBL, $scope.formPH, $scope.formPB);
-
+        if (($scope.formHL !== $scope.formBL) && ($scope.formPH + $scope.formPB === 3)) {
+            sportService.changeGame($scope.formId, Number($scope.formHL), Number($scope.formBL), $scope.formPH, $scope.formPB);
+        }
+        else console.log("Failade ändra match PG:A. Användare");
     };
 });
 
@@ -185,7 +191,7 @@ module.service("sportService", function ($q, $http, $rootScope) {
             method: "PUT",
             data: data,
             headers: {'Authorization': auth}}).success(function (data, status) {
-            console.log("Fixade att ändra match");
+            console.log("Lyckades att ändra match");
         });
     };
 
