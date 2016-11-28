@@ -47,6 +47,7 @@ label.points {
   text-align: right;
   float: right;
   margin: 0 0 0 0;
+  clear: both;
 }
 tr:nth-child(odd) {
   color: blue;
