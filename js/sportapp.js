@@ -14,6 +14,10 @@ module.config(function ($urlRouterProvider, $stateProvider) {
         url: "/changegame",
         templateUrl: "templates/changegame.html",
         controller: "changegameCtrl"
+    }).state("login",{
+        url: "/login",
+        templateUrl:"templates/login.html",
+        controller: "loginCtrl"
     });
 });
 
@@ -23,15 +27,17 @@ module.controller("homeCtrl", function ($scope, $rootScope, sportService) {
         $scope.table = data;
     });
 });
+module.controller("loginCtrl", function ($scope, $rootScope, sportService){
+    $scope.loggIn = function () {
+        console.log("du komer hit, dummel");
+        sportService.loggIn($scope.username, $scope.password);
+    };
+});
 module.controller("addgameCtrl", function ($scope, $rootScope, sportService) {
 
     sportService.getTable().then(function (data) {
         $scope.table = data;
     });
-    $scope.loggIn = function () {
-        console.log("du komer hit, dummel");
-        sportService.loggIn($scope.username, $scope.password);
-    };
     $scope.addGame = function () {
         console.log("Fubar");
         if ((($scope.hl) !== Number($scope.bl)) && ($scope.ph + $scope.pb === 3)) {
